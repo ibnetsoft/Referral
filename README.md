@@ -41,7 +41,7 @@ npm run dev
 ```bash
 SUPABASE_PROJECT_URL=https://ebkqooyhludsvqamfpwo.supabase.co
 DATABASE_URL=postgres://...
-APP_URL=http://localhost:3000
+APP_URL=https://www.uarich.kr
 SESSION_COOKIE_NAME=referral_session
 SESSION_TTL_DAYS=14
 LOGIN_RATE_LIMIT_WINDOW_MINUTES=10

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { requireAdmin } from "@/lib/auth/guards";
 import { getAdminStats, searchAdminUsers } from "@/lib/admin";
 import { ReferralTree } from "@/components/referral-tree";
+import { ProductReceivedToggle } from "@/components/admin/product-received-toggle";
 
 export default async function AdminPage({
   searchParams,
@@ -18,7 +19,7 @@ export default async function AdminPage({
   const rows = await searchAdminUsers(field, q);
 
   return (
-    <section className="mx-auto max-w-7xl space-y-8 px-6 py-8">
+    <section className="mx-auto w-full max-w-[1800px] space-y-8 px-6 py-8">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <p className="font-mono text-sm uppercase tracking-[0.2em] text-orange-700">
@@ -80,7 +81,7 @@ export default async function AdminPage({
 
       <section className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white/90 shadow-[0_18px_50px_rgba(15,23,42,0.08)]">
         <div className="overflow-x-auto">
-          <table className="min-w-full text-left text-sm">
+          <table className="min-w-[1650px] text-left text-sm">
             <thead className="bg-slate-50 text-slate-500">
               <tr>
                 {[
@@ -91,12 +92,13 @@ export default async function AdminPage({
                   "추천코드",
                   "추천인 아이디",
                   "추천인 이름",
+                  "상품수령",
                   "직접 추천수",
                   "전체 하위 조직수",
                   "가입일시",
                   "상세",
                 ].map((heading) => (
-                  <th key={heading} className="px-4 py-3 font-medium">
+                  <th key={heading} className="whitespace-nowrap px-4 py-3 font-medium">
                     {heading}
                   </th>
                 ))}
@@ -105,23 +107,29 @@ export default async function AdminPage({
             <tbody>
               {rows.map((row) => (
                 <tr key={row.id} className="border-t border-slate-100">
-                  <td className="px-4 py-3 text-slate-700">{row.signupNumber}</td>
-                  <td className="px-4 py-3 font-medium text-slate-950">{row.fullName}</td>
-                  <td className="px-4 py-3 text-slate-700">{row.phoneNumber}</td>
-                  <td className="px-4 py-3 font-medium text-slate-950">{row.username}</td>
-                  <td className="px-4 py-3 font-mono text-slate-700">{row.referralCode}</td>
-                  <td className="px-4 py-3 text-slate-700">
+                  <td className="whitespace-nowrap px-4 py-3 text-slate-700">{row.signupNumber}</td>
+                  <td className="whitespace-nowrap px-4 py-3 font-medium text-slate-950">{row.fullName}</td>
+                  <td className="whitespace-nowrap px-4 py-3 text-slate-700">{row.phoneNumber}</td>
+                  <td className="whitespace-nowrap px-4 py-3 font-medium text-slate-950">{row.username}</td>
+                  <td className="whitespace-nowrap px-4 py-3 font-mono text-slate-700">{row.referralCode}</td>
+                  <td className="whitespace-nowrap px-4 py-3 text-slate-700">
                     {row.recommenderUsername ?? "없음"}
                   </td>
-                  <td className="px-4 py-3 text-slate-700">
+                  <td className="whitespace-nowrap px-4 py-3 text-slate-700">
                     {row.recommenderFullName ?? "없음"}
                   </td>
-                  <td className="px-4 py-3 text-slate-700">{row.directReferralCount}</td>
-                  <td className="px-4 py-3 text-slate-700">{row.totalDescendantCount}</td>
-                  <td className="px-4 py-3 text-slate-700">
+                  <td className="whitespace-nowrap px-4 py-3 text-slate-700">
+                    <ProductReceivedToggle
+                      userId={row.id}
+                      initialChecked={row.productReceived}
+                    />
+                  </td>
+                  <td className="whitespace-nowrap px-4 py-3 text-slate-700">{row.directReferralCount}</td>
+                  <td className="whitespace-nowrap px-4 py-3 text-slate-700">{row.totalDescendantCount}</td>
+                  <td className="whitespace-nowrap px-4 py-3 text-slate-700">
                     {new Date(row.createdAt).toLocaleString("ko-KR")}
                   </td>
-                  <td className="px-4 py-3">
+                  <td className="whitespace-nowrap px-4 py-3">
                     <Link
                       href={`/admin?field=${field}&q=${encodeURIComponent(q)}&rootUserId=${row.id}&rootUsername=${encodeURIComponent(row.username)}`}
                       className="text-orange-700 hover:underline"

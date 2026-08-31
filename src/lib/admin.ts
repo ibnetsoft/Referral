@@ -14,6 +14,7 @@ export type AdminUserRow = {
   phoneNumber: string;
   username: string;
   referralCode: string;
+  productReceived: boolean;
   recommenderUsername: string | null;
   recommenderFullName: string | null;
   recommenderReferralCode: string | null;
@@ -47,6 +48,7 @@ export async function searchAdminUsers(field: string, q: string) {
         u.phone_number as "phoneNumber",
         u.username,
         u.referral_code as "referralCode",
+        u.product_received as "productReceived",
         recommender.username as "recommenderUsername",
         recommender.full_name as "recommenderFullName",
         recommender.referral_code as "recommenderReferralCode",
@@ -85,6 +87,7 @@ export async function searchAdminUsers(field: string, q: string) {
         u.phone_number as "phoneNumber",
         u.username,
         u.referral_code as "referralCode",
+        u.product_received as "productReceived",
         recommender.username as "recommenderUsername",
         recommender.full_name as "recommenderFullName",
         recommender.referral_code as "recommenderReferralCode",
@@ -117,6 +120,7 @@ export async function searchAdminUsers(field: string, q: string) {
         u.phone_number as "phoneNumber",
         u.username,
         u.referral_code as "referralCode",
+        u.product_received as "productReceived",
         recommender.username as "recommenderUsername",
         recommender.full_name as "recommenderFullName",
         recommender.referral_code as "recommenderReferralCode",
@@ -148,6 +152,7 @@ export async function searchAdminUsers(field: string, q: string) {
       u.phone_number as "phoneNumber",
       u.username,
       u.referral_code as "referralCode",
+      u.product_received as "productReceived",
       recommender.username as "recommenderUsername",
       recommender.full_name as "recommenderFullName",
       recommender.referral_code as "recommenderReferralCode",

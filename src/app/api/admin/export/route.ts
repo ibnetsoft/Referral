@@ -16,6 +16,7 @@ export async function GET() {
       추천코드: row.referralCode,
       "추천인 아이디": row.recommenderUsername ?? "",
       "추천인 이름": row.recommenderFullName ?? "",
+      상품수령: row.productReceived ? "수령" : "미수령",
       "추천인 추천코드": row.recommenderReferralCode ?? "",
       "직접 추천수": row.directReferralCount,
       "전체 하위 조직수": row.totalDescendantCount,

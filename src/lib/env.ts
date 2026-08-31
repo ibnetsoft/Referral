@@ -1,5 +1,11 @@
+const defaultAppUrl = "https://www.uarich.kr";
+const appUrlFromEnv = process.env.APP_URL?.trim();
+
 export const env = {
-  appUrl: process.env.APP_URL ?? "http://localhost:3000",
+  appUrl:
+    appUrlFromEnv && appUrlFromEnv.includes("uarich.kr")
+      ? appUrlFromEnv
+      : defaultAppUrl,
   databaseUrl: process.env.DATABASE_URL ?? process.env.POSTGRES_URL ?? "",
   sessionCookieName: process.env.SESSION_COOKIE_NAME ?? "referral_session",
   sessionTtlDays: Number(process.env.SESSION_TTL_DAYS ?? "14"),
