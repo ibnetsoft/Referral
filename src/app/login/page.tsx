@@ -26,10 +26,6 @@ export default async function LoginPage({
         <h1 className="text-5xl font-semibold tracking-[-0.05em] text-slate-950">
           계정 로그인
         </h1>
-        <p className="max-w-lg text-base leading-7 text-slate-600">
-          로그인 성공 시 서버가 `httpOnly` 세션 쿠키를 발급합니다. 관리자 권한은
-          세션만으로 신뢰하지 않고 서버에서 다시 확인합니다.
-        </p>
         <div className="rounded-[2rem] border border-orange-200 bg-white/80 p-6">
           <p className="text-sm text-slate-500">아직 계정이 없나요?</p>
           <Link href="/signup" className="mt-3 inline-flex text-sm font-medium text-orange-700">

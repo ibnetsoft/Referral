@@ -79,15 +79,32 @@ export function SignupForm({
         <h1 className="text-3xl font-semibold tracking-[-0.04em] text-slate-950">
           회원가입
         </h1>
-        <p className="text-sm text-slate-600">
-          추천코드 기반 가입을 지원하는 최소 기능 MVP입니다.
-        </p>
       </div>
       {error ? (
         <p className="rounded-2xl bg-rose-50 px-4 py-3 text-sm text-rose-700">
           {error}
         </p>
       ) : null}
+      <label className="block space-y-2">
+        <span className="text-sm font-medium text-slate-700">이름</span>
+        <input
+          name="full_name"
+          required
+          placeholder="실명을 입력하세요"
+          className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 outline-none transition focus:border-orange-400"
+        />
+      </label>
+      <label className="block space-y-2">
+        <span className="text-sm font-medium text-slate-700">핸드폰번호</span>
+        <input
+          name="phone_number"
+          type="tel"
+          required
+          inputMode="tel"
+          placeholder="01012345678 또는 010-1234-5678"
+          className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 outline-none transition focus:border-orange-400"
+        />
+      </label>
       <label className="block space-y-2">
         <span className="text-sm font-medium text-slate-700">아이디</span>
         <input
@@ -119,10 +136,11 @@ export function SignupForm({
         <span className="text-sm font-medium text-slate-700">추천코드</span>
         <input
           name={lockedReferral ? "locked_referral_code" : "referral_code"}
+          required
           value={referralCode}
           onChange={(event) => setReferralCode(event.target.value.toUpperCase())}
           readOnly={lockedReferral}
-          placeholder="선택 입력"
+          placeholder="필수 입력"
           className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 uppercase outline-none transition focus:border-orange-400 read-only:bg-amber-50"
         />
       </label>

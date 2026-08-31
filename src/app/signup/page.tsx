@@ -36,10 +36,6 @@ export default async function SignupPage({
           <br />
           회원가입
         </h1>
-        <p className="max-w-lg text-base leading-7 text-slate-600">
-          추천코드는 일반 가입에서는 선택 입력입니다. `?ref=CODE` 링크로 들어오면
-          서버가 추천코드를 재검증하고 수정 불가 상태로 고정합니다.
-        </p>
         <div className="rounded-[2rem] border border-orange-200 bg-white/80 p-6">
           <p className="text-sm text-slate-500">이미 계정이 있나요?</p>
           <Link href="/login" className="mt-3 inline-flex text-sm font-medium text-orange-700">

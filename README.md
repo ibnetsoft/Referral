@@ -15,8 +15,9 @@
 ## Features
 
 - `username + password` 회원가입/로그인
+- 이름, 핸드폰번호 입력
 - `bcryptjs` 비밀번호 해시 저장
-- `/signup?ref=CODE` 기반 추천코드 자동 인식
+- 추천코드 필수 입력과 `/signup?ref=CODE` 자동 고정
 - 서버 재검증 후 `recommender_id` 저장
 - `httpOnly` 세션 쿠키 로그인
 - 마이페이지 추천 URL, 링크복사, 카카오 공유

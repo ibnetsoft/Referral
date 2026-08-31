@@ -17,10 +17,6 @@ export default async function Home() {
               <br />
               조직을 바로 추적합니다.
             </h1>
-            <p className="max-w-2xl text-base leading-7 text-slate-600 sm:text-lg">
-              이메일 인증 없이 `username + password`로 가입하고, 추천링크 기반
-              회원 유입과 하위 조직을 추적하는 임시 운영용 웹 MVP입니다.
-            </p>
           </div>
           <div className="flex flex-wrap gap-3">
             <Link

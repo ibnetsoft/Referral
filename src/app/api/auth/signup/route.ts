@@ -18,6 +18,8 @@ export async function POST(request: NextRequest) {
   const referralCode = lockedReferralCode || submittedReferralCode;
 
   const parsed = signupSchema.safeParse({
+    fullName: String(formData.get("full_name") ?? ""),
+    phoneNumber: String(formData.get("phone_number") ?? ""),
     username: String(formData.get("username") ?? ""),
     password: String(formData.get("password") ?? ""),
     passwordConfirm: String(formData.get("password_confirm") ?? ""),
@@ -45,11 +47,23 @@ export async function POST(request: NextRequest) {
     });
   }
 
-  const recommender = referralCode
-    ? await getUserByReferralCode(referralCode)
-    : null;
+  const existingPhoneNumber = await sql<{ id: string }[]>`
+    select id
+    from public.users
+    where phone_number = ${parsed.data.phoneNumber}
+    limit 1
+  `;
 
-  if (referralCode && !recommender) {
+  if (existingPhoneNumber.length > 0) {
+    return redirectWithQuery(request, "/signup", {
+      error: "이미 사용 중인 핸드폰번호입니다.",
+      ref: lockedReferralCode || undefined,
+    });
+  }
+
+  const recommender = await getUserByReferralCode(referralCode);
+
+  if (!recommender) {
     return redirectWithQuery(request, "/signup", {
       error: "유효하지 않은 추천코드입니다.",
       ref: lockedReferralCode || undefined,
@@ -60,12 +74,16 @@ export async function POST(request: NextRequest) {
   const newReferralCode = await generateUniqueReferralCode();
   const [createdUser] = await sql<{ id: string }[]>`
     insert into public.users (
+      full_name,
+      phone_number,
       username,
       password_hash,
       referral_code,
       recommender_id
     )
     values (
+      ${parsed.data.fullName},
+      ${parsed.data.phoneNumber},
       ${parsed.data.username},
       ${passwordHash},
       ${newReferralCode},

@@ -49,6 +49,8 @@ supabase/
 ### `public.users`
 
 - `id UUID PK`
+- `full_name VARCHAR NOT NULL`
+- `phone_number VARCHAR UNIQUE NOT NULL`
 - `username VARCHAR UNIQUE NOT NULL`
 - `password_hash TEXT NOT NULL`
 - `referral_code VARCHAR UNIQUE NOT NULL`
@@ -80,7 +82,7 @@ supabase/
 ### Auth
 
 - `POST /api/auth/signup`
-  - body: `username`, `password`, `password_confirm`, `referral_code`, `locked_referral_code`
+  - body: `full_name`, `phone_number`, `username`, `password`, `password_confirm`, `referral_code`, `locked_referral_code`
   - behavior: validates input, re-validates referral code on server, creates hashed password + referral code + session cookie
 - `POST /api/auth/login`
   - body: `username`, `password`
@@ -110,6 +112,7 @@ supabase/
   - landing page and signup CTA
 - `/signup`
   - optional `?ref=CODE`
+  - referral code required
   - if `ref` exists, referral locked in UI
 - `/login`
   - username/password login

@@ -2,6 +2,18 @@ import { z } from "zod";
 
 export const signupSchema = z
   .object({
+    fullName: z
+      .string()
+      .trim()
+      .min(2, "이름을 입력하세요.")
+      .max(50, "이름은 50자 이하여야 합니다."),
+    phoneNumber: z
+      .string()
+      .trim()
+      .regex(
+        /^[0-9]{2,4}-?[0-9]{3,4}-?[0-9]{4}$/,
+        "핸드폰번호 형식이 올바르지 않습니다.",
+      ),
     username: z
       .string()
       .trim()
@@ -15,9 +27,8 @@ export const signupSchema = z
       .string()
       .trim()
       .toUpperCase()
-      .regex(/^[A-Z0-9]{6,12}$/, "추천코드 형식이 올바르지 않습니다.")
-      .optional()
-      .or(z.literal("")),
+      .min(1, "추천코드는 필수입니다.")
+      .regex(/^[A-Z0-9]{6,12}$/, "추천코드 형식이 올바르지 않습니다."),
   })
   .refine((data) => data.password === data.passwordConfirm, {
     message: "비밀번호 확인이 일치하지 않습니다.",

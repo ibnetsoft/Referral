@@ -2,6 +2,8 @@ create extension if not exists pgcrypto;
 
 create table if not exists public.users (
   id uuid primary key default gen_random_uuid(),
+  full_name varchar(50) not null,
+  phone_number varchar(20) not null unique,
   username varchar(50) not null unique,
   password_hash text not null,
   referral_code varchar(32) not null unique,
@@ -9,6 +11,8 @@ create table if not exists public.users (
   role varchar(20) not null default 'USER',
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
+  constraint users_full_name_length check (char_length(full_name) between 2 and 50),
+  constraint users_phone_number_format check (phone_number ~ '^[0-9]{2,4}-?[0-9]{3,4}-?[0-9]{4}$'),
   constraint users_username_format check (username ~ '^[A-Za-z0-9_]{4,20}$'),
   constraint users_role_check check (role in ('USER', 'ADMIN')),
   constraint users_referral_code_format check (referral_code ~ '^[A-Z0-9]{6,12}$')
