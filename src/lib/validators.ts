@@ -20,7 +20,7 @@ export const signupSchema = z
       .regex(/^[A-Za-z0-9_]{4,20}$/, "아이디는 4~20자의 영문, 숫자, 밑줄만 가능합니다."),
     password: z
       .string()
-      .min(8, "비밀번호는 8자 이상이어야 합니다.")
+      .min(6, "비밀번호는 6자 이상이어야 합니다.")
       .max(72, "비밀번호는 72자 이하여야 합니다."),
     passwordConfirm: z.string(),
     referralCode: z
