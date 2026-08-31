@@ -33,6 +33,31 @@ export async function POST(request: NextRequest) {
     });
   }
 
+  const [usersCountRow] = await sql<{ count: number }[]>`
+    select count(*)::int as count
+    from public.users
+  `;
+  const isBootstrapSignup = (usersCountRow?.count ?? 0) === 0;
+
+  const normalizedReferralCode = parsed.data.referralCode.trim().toUpperCase();
+
+  if (!isBootstrapSignup && !normalizedReferralCode) {
+    return redirectWithQuery(request, "/signup", {
+      error: "추천코드는 필수입니다.",
+      ref: lockedReferralCode || undefined,
+    });
+  }
+
+  if (
+    normalizedReferralCode &&
+    !/^[A-Z0-9]{6,12}$/.test(normalizedReferralCode)
+  ) {
+    return redirectWithQuery(request, "/signup", {
+      error: "추천코드 형식이 올바르지 않습니다.",
+      ref: lockedReferralCode || undefined,
+    });
+  }
+
   const existingUser = await sql<{ id: string }[]>`
     select id
     from public.users
@@ -61,9 +86,11 @@ export async function POST(request: NextRequest) {
     });
   }
 
-  const recommender = await getUserByReferralCode(referralCode);
+  const recommender = normalizedReferralCode
+    ? await getUserByReferralCode(normalizedReferralCode)
+    : null;
 
-  if (!recommender) {
+  if (!isBootstrapSignup && !recommender) {
     return redirectWithQuery(request, "/signup", {
       error: "유효하지 않은 추천코드입니다.",
       ref: lockedReferralCode || undefined,

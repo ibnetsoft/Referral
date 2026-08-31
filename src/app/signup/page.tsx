@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/auth/current-user";
+import { sql } from "@/lib/db";
 import { normalizeReferralCode } from "@/lib/referral";
 import { getUserByReferralCode } from "@/lib/users";
 import { SignupForm } from "@/components/auth/signup-form";
@@ -17,6 +18,11 @@ export default async function SignupPage({
   }
 
   const params = await searchParams;
+  const [usersCountRow] = await sql<{ count: number }[]>`
+    select count(*)::int as count
+    from public.users
+  `;
+  const bootstrapMode = (usersCountRow?.count ?? 0) === 0;
   const referralCode = normalizeReferralCode(
     typeof params.ref === "string" ? params.ref : "",
   );
@@ -46,6 +52,7 @@ export default async function SignupPage({
       <SignupForm
         initialReferralCode={referralCode}
         lockedReferral={Boolean(referralCode && recommender)}
+        bootstrapMode={bootstrapMode}
         initialRecommenderName={recommender?.username}
         error={error}
       />

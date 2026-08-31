@@ -26,9 +26,7 @@ export const signupSchema = z
     referralCode: z
       .string()
       .trim()
-      .toUpperCase()
-      .min(1, "추천코드는 필수입니다.")
-      .regex(/^[A-Z0-9]{6,12}$/, "추천코드 형식이 올바르지 않습니다."),
+      .toUpperCase(),
   })
   .refine((data) => data.password === data.passwordConfirm, {
     message: "비밀번호 확인이 일치하지 않습니다.",

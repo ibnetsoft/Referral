@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 type Props = {
   initialReferralCode: string;
   lockedReferral: boolean;
+  bootstrapMode: boolean;
   initialRecommenderName?: string | null;
   error?: string;
 };
@@ -18,6 +19,7 @@ type LookupState = {
 export function SignupForm({
   initialReferralCode,
   lockedReferral,
+  bootstrapMode,
   initialRecommenderName,
   error,
 }: Props) {
@@ -136,11 +138,11 @@ export function SignupForm({
         <span className="text-sm font-medium text-slate-700">추천코드</span>
         <input
           name={lockedReferral ? "locked_referral_code" : "referral_code"}
-          required
+          required={!bootstrapMode}
           value={referralCode}
           onChange={(event) => setReferralCode(event.target.value.toUpperCase())}
           readOnly={lockedReferral}
-          placeholder="필수 입력"
+          placeholder={bootstrapMode ? "첫 회원은 비워도 됩니다" : "필수 입력"}
           className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 uppercase outline-none transition focus:border-orange-400 read-only:bg-amber-50"
         />
       </label>
@@ -152,6 +154,11 @@ export function SignupForm({
       {lockedReferral ? (
         <p className="text-sm text-amber-700">
           추천링크로 접속한 경우 추천코드는 변경할 수 없습니다.
+        </p>
+      ) : null}
+      {bootstrapMode ? (
+        <p className="text-sm text-slate-500">
+          첫 회원 가입만 추천코드 없이 허용됩니다.
         </p>
       ) : null}
       <button
