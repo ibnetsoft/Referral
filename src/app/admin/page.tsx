@@ -84,13 +84,17 @@ export default async function AdminPage({
             <thead className="bg-slate-50 text-slate-500">
               <tr>
                 {[
-                  "username",
-                  "referral_code",
-                  "recommender",
-                  "direct_referral_count",
-                  "total_descendant_count",
-                  "created_at",
-                  "detail",
+                  "번호",
+                  "이름",
+                  "핸드폰번호",
+                  "아이디",
+                  "추천코드",
+                  "추천인 아이디",
+                  "추천인 이름",
+                  "직접 추천수",
+                  "전체 하위 조직수",
+                  "가입일시",
+                  "상세",
                 ].map((heading) => (
                   <th key={heading} className="px-4 py-3 font-medium">
                     {heading}
@@ -101,10 +105,16 @@ export default async function AdminPage({
             <tbody>
               {rows.map((row) => (
                 <tr key={row.id} className="border-t border-slate-100">
+                  <td className="px-4 py-3 text-slate-700">{row.signupNumber}</td>
+                  <td className="px-4 py-3 font-medium text-slate-950">{row.fullName}</td>
+                  <td className="px-4 py-3 text-slate-700">{row.phoneNumber}</td>
                   <td className="px-4 py-3 font-medium text-slate-950">{row.username}</td>
                   <td className="px-4 py-3 font-mono text-slate-700">{row.referralCode}</td>
                   <td className="px-4 py-3 text-slate-700">
                     {row.recommenderUsername ?? "없음"}
+                  </td>
+                  <td className="px-4 py-3 text-slate-700">
+                    {row.recommenderFullName ?? "없음"}
                   </td>
                   <td className="px-4 py-3 text-slate-700">{row.directReferralCount}</td>
                   <td className="px-4 py-3 text-slate-700">{row.totalDescendantCount}</td>
@@ -116,7 +126,7 @@ export default async function AdminPage({
                       href={`/admin?field=${field}&q=${encodeURIComponent(q)}&rootUserId=${row.id}&rootUsername=${encodeURIComponent(row.username)}`}
                       className="text-orange-700 hover:underline"
                     >
-                      조직도 보기
+                      보기
                     </Link>
                   </td>
                 </tr>

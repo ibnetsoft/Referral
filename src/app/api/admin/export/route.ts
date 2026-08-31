@@ -8,15 +8,18 @@ export async function GET() {
   const rows = await searchAdminUsers("username", "");
 
   const worksheet = XLSX.utils.json_to_sheet(
-    rows.map((row, index) => ({
-      index: index + 1,
-      username: row.username,
-      referral_code: row.referralCode,
-      recommender_username: row.recommenderUsername ?? "",
-      recommender_referral_code: row.recommenderReferralCode ?? "",
-      direct_referral_count: row.directReferralCount,
-      total_descendant_count: row.totalDescendantCount,
-      created_at: row.createdAt,
+    rows.map((row) => ({
+      번호: row.signupNumber,
+      이름: row.fullName,
+      핸드폰번호: row.phoneNumber,
+      아이디: row.username,
+      추천코드: row.referralCode,
+      "추천인 아이디": row.recommenderUsername ?? "",
+      "추천인 이름": row.recommenderFullName ?? "",
+      "추천인 추천코드": row.recommenderReferralCode ?? "",
+      "직접 추천수": row.directReferralCount,
+      "전체 하위 조직수": row.totalDescendantCount,
+      가입일시: row.createdAt,
     })),
   );
 

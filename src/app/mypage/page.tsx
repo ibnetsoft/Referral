@@ -61,12 +61,7 @@ export default async function MyPage() {
             {referralUrl}
           </p>
           <div className="mt-6">
-            <ShareButtons
-              referralUrl={referralUrl}
-              username={summary.username}
-              referralCode={summary.referralCode}
-              kakaoJavascriptKey={env.kakaoJavascriptKey}
-            />
+            <ShareButtons referralUrl={referralUrl} />
           </div>
         </div>
       </div>

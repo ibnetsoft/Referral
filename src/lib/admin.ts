@@ -8,10 +8,14 @@ export type AdminStats = {
 };
 
 export type AdminUserRow = {
+  signupNumber: number;
   id: string;
+  fullName: string;
+  phoneNumber: string;
   username: string;
   referralCode: string;
   recommenderUsername: string | null;
+  recommenderFullName: string | null;
   recommenderReferralCode: string | null;
   directReferralCount: number;
   totalDescendantCount: number;
@@ -37,10 +41,14 @@ export async function searchAdminUsers(field: string, q: string) {
   if (!q) {
     return sql<AdminUserRow[]>`
       select
+        row_number() over (order by u.created_at asc, u.id asc)::int as "signupNumber",
         u.id,
+        u.full_name as "fullName",
+        u.phone_number as "phoneNumber",
         u.username,
         u.referral_code as "referralCode",
         recommender.username as "recommenderUsername",
+        recommender.full_name as "recommenderFullName",
         recommender.referral_code as "recommenderReferralCode",
         (
           select count(*)::int
@@ -71,10 +79,14 @@ export async function searchAdminUsers(field: string, q: string) {
   if (field === "username") {
     return sql<AdminUserRow[]>`
       select
+        row_number() over (order by u.created_at asc, u.id asc)::int as "signupNumber",
         u.id,
+        u.full_name as "fullName",
+        u.phone_number as "phoneNumber",
         u.username,
         u.referral_code as "referralCode",
         recommender.username as "recommenderUsername",
+        recommender.full_name as "recommenderFullName",
         recommender.referral_code as "recommenderReferralCode",
         (
           select count(*)::int from public.users direct_child where direct_child.recommender_id = u.id
@@ -99,10 +111,14 @@ export async function searchAdminUsers(field: string, q: string) {
   if (field === "referral_code") {
     return sql<AdminUserRow[]>`
       select
+        row_number() over (order by u.created_at asc, u.id asc)::int as "signupNumber",
         u.id,
+        u.full_name as "fullName",
+        u.phone_number as "phoneNumber",
         u.username,
         u.referral_code as "referralCode",
         recommender.username as "recommenderUsername",
+        recommender.full_name as "recommenderFullName",
         recommender.referral_code as "recommenderReferralCode",
         (
           select count(*)::int from public.users direct_child where direct_child.recommender_id = u.id
@@ -126,10 +142,14 @@ export async function searchAdminUsers(field: string, q: string) {
 
   return sql<AdminUserRow[]>`
     select
+      row_number() over (order by u.created_at asc, u.id asc)::int as "signupNumber",
       u.id,
+      u.full_name as "fullName",
+      u.phone_number as "phoneNumber",
       u.username,
       u.referral_code as "referralCode",
       recommender.username as "recommenderUsername",
+      recommender.full_name as "recommenderFullName",
       recommender.referral_code as "recommenderReferralCode",
       (
         select count(*)::int from public.users direct_child where direct_child.recommender_id = u.id
